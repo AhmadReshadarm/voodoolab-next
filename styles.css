@@ -3139,6 +3139,7 @@ html {
   margin: 0 auto;
   color: #fff;
   padding: 60px 0;
+  overflow: hidden;
 }
 
 .Lines .owl-stage-outer {
