@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useEffect } from 'react';
 
 const Header = () => {
@@ -143,6 +144,9 @@ const Header = () => {
 
   return (
     <>
+      <Head>
+        <link rel="shortcut icon" href="/favicon.ico" />
+      </Head>
       <div className="header">
         <div className="desktop">
           <div className="logo">
