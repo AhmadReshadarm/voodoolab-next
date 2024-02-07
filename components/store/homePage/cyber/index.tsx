@@ -47,7 +47,7 @@ const Cyber = () => {
         </div>
         <div className="button">
           <a
-            href="/devices/cyber"
+            href="/cyber"
             className="dynamicText"
             data-title="home.cyber.moreLink"
           >
