@@ -38,10 +38,10 @@ const Header = () => {
                 void i[e].classList.remove('active'));
           i[e].lastElementChild.classList.toggle('active');
         });
-    const n: any = document.querySelector('[href*="pages/merch"]');
-    window.location.pathname.includes('/merch/')
-      ? n.remove()
-      : n.nextElementSibling.remove();
+    // const n: any = document.querySelector('[href*="/merch"]');
+    // window.location.pathname.includes('/merch')
+    //   ? n.remove()
+    //   : n.nextElementSibling.remove();
     const o: any = document.querySelector('.merchItemBox');
     if (o)
       for (let e = 0; e < o.children.length; e++)
@@ -297,16 +297,10 @@ const Header = () => {
               девайсы &nbsp;☰
               <div className="newIcon">new</div>
               <div className="navItemBtn_box">
-                <a
-                  href="../../../pages/devices/husky/index.html"
-                  className="navItemLink"
-                >
+                <a href="/husky" className="navItemLink">
                   Husky AirMax
                 </a>
-                <a
-                  href="../../../pages/devices/cyber/index.html"
-                  className="navItemLink"
-                >
+                <a href="/cyber" className="navItemLink">
                   Husky Cyber
                 </a>
               </div>
@@ -317,16 +311,10 @@ const Header = () => {
                 <div className="navItemBtn desktop_navItemBtn">
                   boshki &nbsp;☰
                   <div className="navItemBtn_box">
-                    <a
-                      href="../../../pages/lines/boshki_one_ice/index.html"
-                      className="navItemLink"
-                    >
+                    <a href="/boshki_one_ice" className="navItemLink">
                       boshki one ice
                     </a>
-                    <a
-                      href="../../../pages/lines/boshki/index.html"
-                      className="navItemLink"
-                    >
+                    <a href="/boshki" className="navItemLink">
                       boshki
                     </a>
                   </div>
@@ -335,50 +323,35 @@ const Header = () => {
                 <div className="navItemBtn desktop_navItemBtn">
                   husky &nbsp;☰
                   <div className="navItemBtn_box">
-                    <a
-                      href="../../../pages/lines/husky_double_ice/index.html"
-                      className="navItemLink"
-                    >
+                    <a href="/husky_double_ice" className="navItemLink">
                       husky double ice
                     </a>
-                    <a
-                      href="../../../pages/lines/husky_mint_series/index.html"
-                      className="navItemLink"
-                    >
+                    <a href="/husky_mint_series" className="navItemLink">
                       husky mint series
                     </a>
-                    <a
-                      href="../../../pages/lines/husky_white/index.html"
-                      className="navItemLink"
-                    >
+                    <a href="/husky_white" className="navItemLink">
                       husky white
                     </a>
-                    <a
-                      href="../../../pages/lines/husky_premium/index.html"
-                      className="navItemLink"
-                    >
+                    <a href="/husky_premium" className="navItemLink">
                       husky premium
                     </a>
-                    <a
-                      href="../../../pages/lines/husky_malasian/index.html"
-                      className="navItemLink"
-                    >
+                    <a href="/husky_malasian" className="navItemLink">
                       husky malasian
                     </a>
                   </div>
                 </div>
               </div>
             </div>
-            <a href="../../../pages/map/index.html" className="navItemLink">
+            <a href="/map" className="navItemLink">
               карта вкусов
             </a>
-            <a href="../../../pages/merch/index.html" className="navItemLink">
+            <a href="/merch" className="navItemLink">
               мерч
             </a>
-            <a href="https://voodoo-lab.ru/validate/" className="navItemLink">
+            <a href="https://voodoo-lab.ru/validate" className="navItemLink">
               проверка
             </a>
-            <a href="../../../pages/reviews/index.html" className="navItemLink">
+            <a href="/reviews" className="navItemLink">
               обзоры
             </a>
             <div className="socialNetwork">
