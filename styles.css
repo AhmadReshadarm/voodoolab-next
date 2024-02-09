@@ -4816,7 +4816,7 @@ html {
 }
 
 .youtube-player .play {
-  background: url(/images/common/youtube-play-btn.png) no-repeat;
+  background: url(/assets/images/common/youtube-play-btn.png) no-repeat;
   background-position: 0 -50px;
   background-size: 100% auto;
   position: absolute;

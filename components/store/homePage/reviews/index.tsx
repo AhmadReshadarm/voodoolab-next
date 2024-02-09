@@ -89,7 +89,7 @@ const Reviews = () => {
                 </a>
               </div>
               <div className="owl-item cloned active" style={{ width: 'auto' }}>
-                <a href="/reviews/#husky white">
+                <a href="/reviews/#husky_white">
                   <div className="videoItem">
                     <div className="youtube-player" data-id="KNCWv904JK4">
                       <div data-id="KNCWv904JK4">
@@ -121,7 +121,7 @@ const Reviews = () => {
                 </a>
               </div>
               <div className="owl-item active" style={{ width: 'auto' }}>
-                <a href="/reviews/#husky_premium&amp;husky_white">
+                <a href="/reviews/#husky_white">
                   <div className="videoItem">
                     <div className="youtube-player" data-id="4LnWiWMeF38">
                       <div data-id="4LnWiWMeF38">
@@ -171,7 +171,7 @@ const Reviews = () => {
                 </a>
               </div>
               <div className="owl-item" style={{ width: 'auto' }}>
-                <a href="/reviews/#husky white">
+                <a href="/reviews/#husky_white">
                   <div className="videoItem">
                     <div className="youtube-player" data-id="KNCWv904JK4">
                       <div data-id="KNCWv904JK4">
@@ -203,7 +203,7 @@ const Reviews = () => {
                 </a>
               </div>
               <div className="owl-item cloned" style={{ width: 'auto' }}>
-                <a href="/reviews/#husky_premium&amp;husky_white">
+                <a href="/reviews/#husky_white">
                   <div className="videoItem">
                     <div className="youtube-player" data-id="4LnWiWMeF38">
                       <div data-id="4LnWiWMeF38">
