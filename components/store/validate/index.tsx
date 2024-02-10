@@ -1,7 +1,21 @@
 import styled from 'styled-components';
+import InvaliedValidate from './invaliedValidate';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { fetchBarcode } from 'redux/slicers/store/barcodeSlicer';
+import { useEffect, useState } from 'react';
+import { TBarcodeState } from 'redux/types';
 
 const ValidateComponent = () => {
   // after 11 time check the page changes to ivalied validate and will never revert
+  const { error } = useAppSelector<TBarcodeState>((state) => state.barcode);
+  const [input, setInput] = useState('');
+  const dispatch = useAppDispatch();
+  const handleBarcodeCheck = (code: string) => {
+    dispatch(fetchBarcode({ code }));
+  };
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
   return (
     <Wrapper>
       <div className="ValidatePage_ValidatePage__3OAyc">
@@ -10,23 +24,38 @@ const ValidateComponent = () => {
             <div className="Validate_logo__17Wjb">
               <img src="/static/media/husky-logo.5e653688.png" alt="logoImg" />
             </div>
-            <form className="Validate_form__23dZX">
+            <div
+              // onSubmit={(evt) => evt.preventDefault()}
+              className="Validate_form__23dZX"
+            >
               <div className="Validate_inputBox__MHizk">
                 <input
                   type="text"
                   placeholder="Введите код с упаковки"
-                  //   value=""
+                  maxLength={11}
+                  value={input}
+                  onChange={(evt) => setInput(evt.target.value)}
                 />
               </div>
               <div className="Validate_responseText__32b_A">
-                {/*  <span class="Validate_validate__3_cQv">Вы купили оригинальную жидкость</span> this is the success response */}
-                {/* <span class="Validate_used__2pIPc">Данный код уже проверяли</span> the repeat response */}
+                {/*  <span className="Validate_validate__3_cQv">Вы купили оригинальную жидкость</span> this is the success response */}
+                {/* <span className="Validate_used__2pIPc">Данный код уже проверяли</span> the repeat response */}
+                <span style={{ color: 'red' }}>{error}</span>
               </div>
-              <button className="Validate_validateBtn__c9Bcc Validate_disable__2vcgc">
+              <button
+                onClick={() => handleBarcodeCheck(input)}
+                className="Validate_validateBtn__c9Bcc Validate_disable__2vcgc"
+              >
                 <span>Проверить</span>
               </button>
-            </form>
+            </div>
             <div className="Validate_footer__3apOM">
+              <button
+                onClick={() => handleBarcodeCheck(input)}
+                style={{ backgroundColor: 'red' }}
+              >
+                <span style={{ color: 'white' }}>Проверить</span>
+              </button>
               {/* <div class="Validate_feedBack__ZkslP"><span class="">Если ваш код не проходит валидацию, пожалуйста, сообщите это нам в </span><span class="Validate_feedBackBtn__12orc"> форме обратной связи. </span></div> this is the repeat resonse part */}
               <div className="Validate_hint__21gEh">
                 <span>Каждый код можно проверить один раз</span>
@@ -39,60 +68,8 @@ const ValidateComponent = () => {
               </div>
             </div>
           </div>
-          <div className="FeedBack_FeedBack__3g_lX">
-            <div className="FeedBack_title__bYdTc"></div>
-            <form className="FeedBack_form__2Srd4">
-              <div className="FeedBack_code__2tiHq">
-                <span></span>
-              </div>
-              <div className="FeedBack_formTitle__3q-3i">Обратная связь</div>
-              <div className="FeedBack_CountryChecked__3-jDl">
-                <div id="CountryInputBox" className="FeedBack_inputBox__207C0">
-                  <input
-                    type="text"
-                    placeholder="Страна"
-                    //    value=""
-                  />
-                </div>
-              </div>
-              <div className="FeedBack_CityChecked__PiMd_">
-                <div id="CityInputBox" className="FeedBack_inputBox__207C0">
-                  <input
-                    className="FeedBack_notCountry__1Qrz4"
-                    type="text"
-                    placeholder="Город"
-                    // value=""
-                  />
-                </div>
-              </div>
-              <div className="FeedBack_store__ebmrV">
-                <input
-                  type="text"
-                  maxLength={128}
-                  placeholder="Магазин"
-                  //   value=""
-                />
-              </div>
-              <div className="FeedBack_phone__2EGVM">
-                <div className="FeedBack_phoneBox__1VMXD"></div>
-              </div>
-              <div className="FeedBack_responseText__cAdv7"></div>
-              <button className="FeedBack_validateBtn__2iy3W">
-                <span>Отправить</span>
-              </button>
-            </form>
-            <div className="FeedBack_footer__2UfhK">
-              <div className="FeedBack_backBtnBox__1JYpP">
-                <a
-                  href="https://voodoo-lab.ru"
-                  className="FeedBack_backBtn__2go4j"
-                >
-                  {' '}
-                  Перейти на сайт{' '}
-                </a>
-              </div>
-            </div>
-          </div>
+          {/* --------------------- failuer form ----------------------- */}
+          {/* <InvaliedValidate /> */}
         </div>
       </div>
     </Wrapper>

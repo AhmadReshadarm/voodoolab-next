@@ -30,6 +30,7 @@ import wishlistSlicer from './slicers/store/wishlistSlicer';
 import profileSlicer from './slicers/store/profileSlicer';
 import newsSlicer from './slicers/newsSlicer';
 import subscriberSlicer from './slicers/subscriberSlicer';
+import barcodeSlicer from './slicers/store/barcodeSlicer';
 
 const combinedReducer = combineReducers({
   categories: categoriesReducer,
@@ -43,6 +44,7 @@ const combinedReducer = combineReducers({
   sizes: sizesReducer,
   reviews: reviewsReducer,
   checkouts: checkoutsReducer,
+  barcode: barcodeSlicer,
   // analytics: analyticsReducer,
   banners: bannersReducer,
   newsPosts: newsSlicer,

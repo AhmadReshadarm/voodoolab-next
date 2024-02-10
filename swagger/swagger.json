@@ -807,27 +807,28 @@
         }
       }
     },
-    "/barcode":{
-      "get":{
-        "tags":["barcode"],
-        "summary":"get all the barcodes",
-        "description":"gets all the generated barcodes",
-        "operationId":"getBarcodes",
-        "consumes":["application/json"],
-        "produces":["application/json"],
-        "parameters":[
+    "/barcode": {
+      "get": {
+        "tags": ["barcode"],
+        "summary": "get all the barcodes",
+        "description": "gets all the generated barcodes",
+        "operationId": "getBarcodes",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
           {
-            "type":"string",
-            "in":"query",
-            "name":"code",
-            "required":false
+            "type": "string",
+            "in": "query",
+            "name": "code",
+            "required": false
           },
           {
-            "type":"boolean",
-            "in":"query",
-            "name":"checked",
-            "required":false
-          },{
+            "type": "boolean",
+            "in": "query",
+            "name": "checked",
+            "required": false
+          },
+          {
             "type": "string",
             "in": "query",
             "name": "sortBy",
@@ -841,8 +842,8 @@
             "required": false,
             "default": "DESC",
             "description": "can be ASC or DESC"
-          }
-           ,{
+          },
+          {
             "type": "string",
             "in": "query",
             "name": "offset",
@@ -855,10 +856,11 @@
             "in": "query",
             "name": "limit",
             "required": false,
-            "default": 10,
+            "default": 1,
             "description": "qty rows to take for pagination"
           }
-        ], "responses": {
+        ],
+        "responses": {
           "200": {
             "description": "successful operation",
             "schema": {
@@ -869,14 +871,47 @@
         }
       }
     },
-    "/barcode/generate":{
-      "post":{
-        "tags":["barcode"],
-        "summary":"auto generate",
-        "description":"auto generate the barcodes needed based on the amount and number to start",
-        "operationId":"autoGenerateBarcode",
+    "/barcode/by-code/{code}": {
+      "get": {
+        "tags": ["barcode"],
+        "summary": "Find barcode by code",
+        "operationId": "findByBarcode",
+        "consumes": ["application/json"],
         "produces": ["application/json"],
-         "parameters": [
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "code of barcode to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Barcode"
+            }
+          },
+          "400": {
+            "description": "Invalid code supplied"
+          },
+          "404": {
+            "description": "code not found"
+          }
+        }
+      }
+    },
+    "/barcode/generate": {
+      "post": {
+        "tags": ["barcode"],
+        "summary": "auto generate",
+        "description": "auto generate the barcodes needed based on the amount and number to start",
+        "operationId": "autoGenerateBarcode",
+        "produces": ["application/json"],
+        "parameters": [
           {
             "type": "string",
             "name": "authorization",
@@ -892,7 +927,6 @@
             "schema": {
               "type": "object",
               "$ref": "#/definitions/barcodeGen"
-            
             }
           }
         ],
@@ -6822,7 +6856,8 @@
           "type": "boolean",
           "default": false,
           "description": "if true means the barcode is used already and unusable"
-        } , "createdAt": {
+        },
+        "createdAt": {
           "type": "string",
           "readOnly": true
         },
@@ -6831,7 +6866,6 @@
           "readOnly": true
         }
       }
-    
     },
     "Brand": {
       "required": ["name", "url"],
@@ -6859,7 +6893,7 @@
         "name": "Brand"
       }
     },
-       "BarCodeResponse": {
+    "BarCodeResponse": {
       "properties": {
         "rows": {
           "type": "array",
@@ -6872,10 +6906,10 @@
         }
       }
     },
-      "barcodeGen":{
-                "barcodeLenght":"number",
-                "startsWith":"string"
-              },
+    "barcodeGen": {
+      "barcodeLenght": "number",
+      "startsWith": "string"
+    },
     "BrandResponse": {
       "properties": {
         "rows": {

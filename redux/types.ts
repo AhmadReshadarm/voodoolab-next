@@ -31,6 +31,7 @@ import {
   CategoryResponse,
   SubscribersResponse,
   Rating,
+  Barcode,
 } from 'swagger/services';
 
 type TCategoryState = {
@@ -218,6 +219,21 @@ type TFilters = {
   fetchFor?: string;
 };
 
+type TFiltersBarcode = {
+  /**  */
+  code?: string;
+  /**  */
+  checked?: boolean;
+  /**  */
+  sortBy?: string;
+  /** can be ASC or DESC */
+  orderBy?: string;
+  /** qty rows to skip for pagination */
+  offset?: string;
+  /** qty rows to take for pagination */
+  limit?: string;
+};
+
 type TCatalogState = {
   categories: Category[];
   subCategories: Category[];
@@ -231,6 +247,13 @@ type TCatalogState = {
   loading: boolean;
   filters: TFilters;
   page: number;
+};
+
+type TBarcodeState = {
+  barcodes: Barcode[];
+  barcode: Barcode | null;
+  loading: boolean;
+  error?: number | null;
 };
 
 type TCheckoutState = {
@@ -391,4 +414,6 @@ export type {
   ImageDTO,
   TSubscribers,
   MailOptionsDTO,
+  TBarcodeState,
+  TFiltersBarcode,
 };
