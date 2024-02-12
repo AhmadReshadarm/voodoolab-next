@@ -36,22 +36,22 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
   const { user } = useAppSelector<TAuthState>((state) => state.auth);
 
   // validate session
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await dispatch(session());
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await dispatch(session());
 
-  //     if (response.payload.message == 'retrying') {
-  //       return;
-  //     }
-  //     if (
-  //       response.payload.user?.role !== Role.Admin &&
-  //       router.pathname.includes('/admin')
-  //     ) {
-  //       navigateTo(router, Page.ADMIN_LOGIN)();
-  //     }
-  //   };
-  //   fetchData();
-  // }, [router]);
+      if (response.payload.message == 'retrying') {
+        return;
+      }
+      if (
+        response.payload.user?.role !== Role.Admin &&
+        router.pathname.includes('/admin')
+      ) {
+        navigateTo(router, Page.ADMIN_LOGIN)();
+      }
+    };
+    fetchData();
+  }, [router]);
   return (
     <>
       <Layout style={{ minHeight: '100vh' }}>
@@ -103,7 +103,7 @@ const AdminLayout: React.FC<Props> = ({ children }) => {
             <div className={styles['site-layout__content']}>{children}</div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Fingarden ©{date} Created by The Best Studio
+            voodoolab ©{date} Created by ARM
           </Footer>
         </Layout>
       </Layout>

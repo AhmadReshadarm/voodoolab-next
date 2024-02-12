@@ -5,52 +5,53 @@ import { navigateTo } from 'common/helpers';
 import { handleDateFormatter } from 'common/helpers/handleDateFormatter';
 import { DataType } from 'common/interfaces/data-type.interface';
 import AdminLayout from 'components/admin/adminLayout/layout';
-import { columns } from 'components/admin/categories/constants';
+import { columns } from 'components/admin/code/constants';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { Page } from 'routes/constants';
-
-import {
-  clearCategories,
-  fetchCategories,
-} from '../../../redux/slicers/categoriesSlicer';
 import styles from './index.module.scss';
+import { TBarcodeState } from 'redux/types';
+import {
+  clearBarcodes,
+  fetchBarcodes,
+} from 'redux/slicers/store/barcodeSlicer';
 
-const CategoriesPage = () => {
+const codePage = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { offset, setOffset } = useContext(AppContext);
 
   const dispatch = useAppDispatch();
-  const categories = useAppSelector((state) => state.categories.categories);
-  const isLoading = useAppSelector((state) => state.categories.loading);
+  const { loading, barcodes } = useAppSelector<TBarcodeState>(
+    (state) => state.barcode,
+  );
+
   const router = useRouter();
 
-  const dataSource = categories?.map(
-    ({ id, name, image, createdAt, updatedAt, url, parent }) => {
+  const dataSource = barcodes?.map(
+    ({ id, code, checked, counter, createdAt, updatedAt }) => {
       return {
         key: id,
         id,
-        name,
-        image,
-        createdAt: handleDateFormatter(createdAt),
-        updatedAt: handleDateFormatter(updatedAt),
-        url,
-        parent,
+        code,
+        checked: checked ? 'Да' : 'Нет',
+        counter,
+        createdAt: handleDateFormatter(createdAt!),
+        updatedAt: handleDateFormatter(updatedAt!),
       };
     },
   ) as unknown as DataType[];
 
   useEffect(() => {
     dispatch(
-      fetchCategories({
+      fetchBarcodes({
         offset: String(offset),
         limit: '20',
       }),
     );
 
     return () => {
-      dispatch(clearCategories());
+      dispatch(clearBarcodes());
       setOffset(0);
     };
   }, []);
@@ -58,16 +59,16 @@ const CategoriesPage = () => {
   return (
     <>
       <div className={styles.categoriesHeader}>
-        <h1 className={styles.categoriesHeader__title}>Категории</h1>
+        <h1 className={styles.categoriesHeader__title}>Код</h1>
         <Button
           className={styles.categoriesHeader__createCategoryButton}
           type="primary"
-          onClick={navigateTo(router, Page.ADMIN_CREATE_CATEGORY)}
+          onClick={navigateTo(router, Page.ADMIN_CREATE_CODE)}
         >
-          Создать новую категорию
+          Создать новую Код
         </Button>
       </div>
-      {isLoading ? (
+      {loading ? (
         <Spin className={styles.spinner} size="large" />
       ) : (
         <Table
@@ -87,7 +88,7 @@ const CategoriesPage = () => {
             const newOffset = ((event.current as number) - 1) * 20;
             setOffset(newOffset);
             dispatch(
-              fetchCategories({
+              fetchBarcodes({
                 offset: String(newOffset),
                 limit: '20',
               }),
@@ -100,6 +101,6 @@ const CategoriesPage = () => {
   );
 };
 
-CategoriesPage.PageLayout = AdminLayout;
+codePage.PageLayout = AdminLayout;
 
-export default CategoriesPage;
+export default codePage;

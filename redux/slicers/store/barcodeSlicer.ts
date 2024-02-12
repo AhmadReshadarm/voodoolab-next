@@ -68,6 +68,9 @@ const barcodeSlicer = createSlice({
     // setPage(state, action) {
     //   state.page = action.payload;
     // },
+    clearBarcodes(state) {
+      state.barcodes = initialState.barcodes;
+    },
     clearError(state) {
       state.error = initialState.error;
     },
@@ -94,5 +97,5 @@ const barcodeSlicer = createSlice({
       });
   },
 });
-export const { clearError } = barcodeSlicer.actions;
+export const { clearError, clearBarcodes } = barcodeSlicer.actions;
 export default barcodeSlicer.reducer;

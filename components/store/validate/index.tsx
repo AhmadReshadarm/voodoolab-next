@@ -1023,6 +1023,13 @@ const Wrapper = styled.div`
     .FeedBack_inputCountryText__BWrp5 {
     background-color: #cbcbcb;
   }
+  .FeedBack_FeedBack__3g_lX
+    .FeedBack_form__2Srd4
+    .FeedBack_phone__2EGVM
+    .FeedBack_phoneBox__1VMXD
+    input {
+    border: none;
+  }
 `;
 
 export default ValidateComponent;

@@ -1,8 +1,62 @@
-import { useAppSelector } from 'redux/hooks';
-import { TBarcodeState } from 'redux/types';
-
+import { useCallback, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { TBarcodeState, TGlobalUIState } from 'redux/types';
+import { countryData } from './helpers';
+import { outsideClickListnerRedux } from 'components/store/storeLayout/helpers';
+import {
+  changeSearchDisplayState,
+  changeSearchFormState,
+} from 'redux/slicers/store/globalUISlicer';
+import { PopupDisplay } from 'components/store/storeLayout/constants';
+import InputMask from 'react-input-mask';
 const InvaliedValidate = ({ isSecondForm, inputCode }) => {
   const { error } = useAppSelector<TBarcodeState>((state) => state.barcode);
+  const [cities, setCities]: [any, any] = useState([]);
+  const [country, setCountry]: [any, any] = useState([]);
+  const [activateCounter, setActivateCountery] = useState(false);
+  const [countryInput, setCounteryInput] = useState('');
+  const [cityInput, setCityInput] = useState('');
+  const [activatecity, setActivateCity] = useState(false);
+  const [seletedCountryIndex, setSeletedCountryIndex] = useState(null);
+  useEffect(() => {
+    setCountry(countryData);
+  }, []);
+  useEffect(() => {
+    if (seletedCountryIndex !== null) {
+      setCities(countryData[seletedCountryIndex].cities);
+    }
+  }, [seletedCountryIndex]);
+
+  const [phone, setPhone] = useState('');
+  const [clickedSubmit, setClickedSubmit] = useState(false);
+  const [shop, setShop] = useState('');
+  // ------------------------ UI hooks ---------------------------
+  const { isSearchFormActive, searchDisplay } = useAppSelector<TGlobalUIState>(
+    (state) => state.globalUI,
+  );
+  const dispatch = useAppDispatch();
+  const [searchWrapperRef, setsearchWrapperRef] = useState(null);
+  const [searchButtonRef, setSearchButtonRef] = useState(null);
+  const [listening, setListening] = useState(false);
+  const searchWrapperNode = useCallback((node: any) => {
+    setsearchWrapperRef(node);
+  }, []);
+  const searchButtonWrapperNode = useCallback((node: any) => {
+    setSearchButtonRef(node);
+  }, []);
+
+  useEffect(
+    outsideClickListnerRedux(
+      listening,
+      setListening,
+      searchWrapperRef,
+      searchButtonRef,
+      dispatch,
+      changeSearchFormState,
+      changeSearchDisplayState,
+    ),
+  );
+
   return (
     <>
       <div
@@ -30,34 +84,257 @@ const InvaliedValidate = ({ isSecondForm, inputCode }) => {
           </div>
           <div className="FeedBack_formTitle__3q-3i">Обратная связь</div>
           <div className="FeedBack_CountryChecked__3-jDl">
-            {/* <div className="FeedBack_backPlace__2llJf"></div> */}
             <div id="CountryInputBox" className="FeedBack_inputBox__207C0">
-              <input type="text" placeholder="Страна" value="" />
-            </div>
-            {/*   
-                  <div id="CountryList" className="FeedBack_listCountry__3NjZp"><div className="FeedBack_listCountryContent__16ixv"><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Россия</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Украина</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Казахстан</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Азербайджан</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Беларусь</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Грузия</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Кыргызстан</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Узбекистан</div></div></div></div>
-                  */}
-          </div>
-          <div className="FeedBack_CityChecked__PiMd_">
-            {/* <div className="FeedBack_backPlace__2llJf"></div> */}
-            <div id="CityInputBox" className="FeedBack_inputBox__207C0">
               <input
-                className="FeedBack_notCountry__1Qrz4"
+                ref={searchButtonWrapperNode}
+                onClick={() => {
+                  // setActivateCountery(!activateCounter)
+                  dispatch(changeSearchFormState(true));
+                  dispatch(changeSearchDisplayState(PopupDisplay.Flex));
+                }}
+                onChange={(evt) => {
+                  setCounteryInput(evt.target.value);
+                  evt.target.value == '' ? setSeletedCountryIndex(null) : '';
+                  setCountry(
+                    evt.target.value == ''
+                      ? countryData
+                      : [
+                          !countryData.find((country) =>
+                            country.country
+                              .toLowerCase()
+                              .match(evt.target.value.toLowerCase()),
+                          )
+                            ? { country: evt.target.value, error: true }
+                            : countryData.find((country) =>
+                                country.country
+                                  .toLowerCase()
+                                  .match(evt.target.value.toLowerCase()),
+                              ),
+                        ],
+                  );
+                }}
                 type="text"
-                placeholder="Город"
-                value=""
+                placeholder="Страна"
+                value={countryInput}
               />
             </div>
-            {/* <div id="CityList" className="FeedBack_listCountry__3NjZp"><div className="FeedBack_listCountryContent__16ixv"><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Виловатово</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Волжск</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Звенигово</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Знаменский</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Йошкар-Ола</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Кельмаксола</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Килемары</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Козьмодемьянск</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Красногорский (Республика Марий Эл)</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Краснооктябрьский</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Куженер</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Мари-Турек</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Медведево</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Морки</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Новый Торъял</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Оршанка</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Параньга</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Приволжский (Республика Марий Эл)</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Сернур</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Советский (Республика Марий Эл)</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Юрино</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Агрыз</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Азнакаево</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Айша</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Аксубаево</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Актаныш</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Актюбинский</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Алексеевское</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Альметьевск</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Апастово</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Арск</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Бавлы</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Базарные Матаки</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Балтаси</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Бетьки</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Богатые Сабы</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Болгар</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Большая Атня</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Большие Кайбицы</div></div><div className="FeedBack_countryItem__2ofFb"><div className="FeedBack_inputCountryText__BWrp5">Большие Тарханы</div></div></div></div> */}
+
+            <div
+              ref={searchWrapperNode}
+              id="CountryList"
+              className="FeedBack_listCountry__3NjZp"
+            >
+              <div className="FeedBack_listCountryContent__16ixv">
+                {isSearchFormActive
+                  ? // activateCounter
+                    !country[0].error
+                    ? country.map((country, index) => {
+                        return (
+                          <>
+                            <div
+                              key={`${index}-${country.country}`}
+                              onClick={() => {
+                                setSeletedCountryIndex(index);
+                                setCounteryInput(country.country);
+                                // setActivateCountery(false);
+                                dispatch(changeSearchFormState(false));
+                                dispatch(
+                                  changeSearchDisplayState(PopupDisplay.None),
+                                );
+                              }}
+                              className="FeedBack_countryItem__2ofFb"
+                            >
+                              <div className="FeedBack_inputCountryText__BWrp5">
+                                {country.country}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })
+                    : country.map((country, index) => {
+                        return (
+                          <>
+                            <div
+                              key={`${index}-${country.country}`}
+                              className="FeedBack_countryItem__2ofFb"
+                            >
+                              <div className="FeedBack_inputCountrySubText__1Gsav">
+                                {`(указать эту страну)`}
+                              </div>
+                              <div className="FeedBack_inputCountryText__BWrp5">
+                                {country.country}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })
+                  : ''}
+              </div>
+            </div>
+          </div>
+          <div className="FeedBack_CityChecked__PiMd_">
+            <div id="CityInputBox" className="FeedBack_inputBox__207C0">
+              <input
+                className={
+                  seletedCountryIndex == null
+                    ? 'FeedBack_notCountry__1Qrz4'
+                    : ''
+                }
+                type="text"
+                placeholder="Город"
+                value={cityInput}
+                onClick={() => {
+                  if (seletedCountryIndex == null) {
+                    setCityInput('Укажите страну');
+                    setActivateCity(false);
+                  }
+                  if (seletedCountryIndex !== null) {
+                    setActivateCity(!activatecity);
+                  }
+                }}
+                onChange={(evt) => {
+                  setCityInput(evt.target.value);
+                  if (seletedCountryIndex !== null) {
+                    setCities(
+                      evt.target.value == ''
+                        ? countryData[seletedCountryIndex].cities
+                        : [
+                            !countryData[seletedCountryIndex].cities.find(
+                              (city) =>
+                                city
+                                  .toLowerCase()
+                                  .match(evt.target.value.toLowerCase()),
+                            )
+                              ? 'not found'
+                              : countryData[seletedCountryIndex].cities.find(
+                                  (city) =>
+                                    city
+                                      .toLowerCase()
+                                      .match(evt.target.value.toLowerCase()),
+                                ),
+                          ],
+                    );
+                  }
+                }}
+              />
+            </div>
+            <div id="CityList" className="FeedBack_listCountry__3NjZp">
+              <div className="FeedBack_listCountryContent__16ixv">
+                {activatecity && seletedCountryIndex !== null
+                  ? cities[0] == 'not found'
+                    ? cities.map((city, index) => {
+                        return (
+                          <>
+                            <div
+                              key={`${index}-${city}`}
+                              className="FeedBack_countryItem__2ofFb"
+                            >
+                              <div className="FeedBack_inputCountrySubText__1Gsav">
+                                {`(указать этот город)`}
+                              </div>
+                              <div className="FeedBack_inputCountryText__BWrp5">
+                                {cityInput}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })
+                    : cities.map((city, index) => {
+                        return (
+                          <>
+                            <div
+                              key={`${index}-${city}`}
+                              className="FeedBack_countryItem__2ofFb"
+                              onClick={() => {
+                                setCityInput(city);
+                                setActivateCity(false);
+                              }}
+                            >
+                              <div className="FeedBack_inputCountryText__BWrp5">
+                                {city}
+                              </div>
+                            </div>
+                          </>
+                        );
+                      })
+                  : ''}
+              </div>
+            </div>
           </div>
           <div className="FeedBack_store__ebmrV">
-            <input type="text" maxLength={128} placeholder="Магазин" value="" />
+            <input
+              type="text"
+              maxLength={128}
+              placeholder="Магазин"
+              value={shop}
+              onChange={(evt) => setShop(evt.target.value)}
+            />
           </div>
           <div className="FeedBack_phone__2EGVM">
-            <div className="FeedBack_phoneBox__1VMXD"></div>
+            <div className="FeedBack_phoneBox__1VMXD">
+              {/* <input type="text" value="+7 " /> */}
+              <InputMask
+                mask="+7 (999) 999 99 99"
+                value={phone}
+                disabled={false}
+                maskChar=" "
+                onChange={(evt) => setPhone(evt.target.value)}
+                style={{ padding: '16.5px 14px' }}
+              >
+                {() => <input placeholder="номер телефона" type="text" />}
+              </InputMask>
+            </div>
           </div>
-          <div className="FeedBack_responseText__cAdv7"></div>
-          <button className="FeedBack_validateBtn__2iy3W">
+          <div className="FeedBack_responseText__cAdv7">
+            {/* {
+            countryInput == '' && clickedSubmit ? (
+              <span className="FeedBack_error__KS_Qs">
+                Не заполнено поле страна
+              </span>
+            ) : (
+              ''
+            )}
+            {cityInput == '' && clickedSubmit ? (
+              <span className="FeedBack_error__KS_Qs">
+                Не заполнено поле город
+              </span>
+            ) : (
+              ''
+            )}
+            {shop == '' && clickedSubmit ? (
+              <span className="FeedBack_error__KS_Qs">
+                Не заполнено поле магазин
+              </span>
+            ) : (
+              ''
+            )}
+            {phone == '' && clickedSubmit ? (
+              <span className="FeedBack_error__KS_Qs">
+                Не заполнено поле телефон
+              </span>
+            ) : (
+              ''
+            )} */}
+          </div>
+          <button
+            onClick={(evt) => {
+              if (
+                countryInput == '' ||
+                cityInput == '' ||
+                phone == '' ||
+                shop == ''
+              ) {
+                evt.preventDefault();
+                setClickedSubmit(true);
+              }
+            }}
+            className="FeedBack_validateBtn__2iy3W"
+            // disabled={
+            //   countryInput == '' || cityInput == '' || phone == '' || shop == ''
+            //     ? true
+            //     : false
+            // }
+          >
             <span>Отправить</span>
           </button>
         </form>

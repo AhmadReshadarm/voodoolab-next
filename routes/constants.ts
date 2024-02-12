@@ -3,6 +3,8 @@ import { PathWords } from 'components/admin/adminLayout/types';
 export enum Page {
   HOME,
   ADMIN_LOGIN,
+  ADMIN_CODE,
+  ADMIN_CREATE_CODE,
   ADMIN_COLORS,
   ADMIN_CREATE_COLORS,
   ADMIN_EDIT_COLORS,
@@ -38,6 +40,8 @@ export enum Page {
 export const paths = {
   [Page.HOME]: '/',
   [Page.ADMIN_LOGIN]: '/admin/login',
+  [Page.ADMIN_CODE]: '/admin/code',
+  [Page.ADMIN_CREATE_CODE]: '/admin/code/create-code',
   [Page.ADMIN_CATEGORIES]: '/admin/categories',
   [Page.ADMIN_CREATE_CATEGORY]: '/admin/categories/create-category',
   [Page.ADMIN_EDIT_CATEGORY]: '/admin/categories/[id]',

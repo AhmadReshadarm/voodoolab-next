@@ -12,12 +12,12 @@ const Users = () => {
           <UserOutlined />
         </span>
       </Link>
-      <Link href="/admin/settings/subscribers" className="content">
+      {/* <Link href="/admin/settings/subscribers" className="content">
         <span>Подписчики</span>
         <span>
           <IdcardOutlined />
         </span>
-      </Link>
+      </Link> */}
     </Wrapper>
   );
 };

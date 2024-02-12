@@ -6857,6 +6857,10 @@
           "default": false,
           "description": "if true means the barcode is used already and unusable"
         },
+        "counter": {
+          "type": "number",
+          "description": "counter of checked time"
+        },
         "createdAt": {
           "type": "string",
           "readOnly": true
