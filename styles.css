@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: BebasNeue, sans-serif;
+
   user-select: none;
 }
 
@@ -12,6 +12,7 @@ body {
   padding: 0;
   overflow-x: hidden;
   height: 100%;
+  font-family: BebasNeue, sans-serif;
 }
 
 a {
@@ -73,10 +74,6 @@ h6 {
 html {
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
-}
-
-body {
-  margin: 0;
 }
 
 main {
@@ -251,10 +248,23 @@ template {
   display: none;
 }
 
+/* special fonts  */
+
+/* latin-ext */
+@font-face {
+  font-family: BebasSpecial;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/bebasNeue/babes2.woff2) format('woff2'),
+    url(/fonts/bebasNeue/babes2.woff) format('woff');
+}
+
+/* ---------------- */
+
 @font-face {
   font-family: BebasNeue;
   font-display: swap;
-  /* /fonts/Circe/Circe-Regular.woff */
   src: url(/fonts/bebasNeue/BebasNeue-Bold.woff2) format('woff2'),
     url(/fonts/bebasNeue/BebasNeue-Bold.woff) format('woff');
   font-weight: 700;

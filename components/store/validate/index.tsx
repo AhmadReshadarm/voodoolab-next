@@ -1,160 +1,312 @@
 import styled from 'styled-components';
 import InvaliedValidate from './invaliedValidate';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { fetchBarcode } from 'redux/slicers/store/barcodeSlicer';
+import { clearError, fetchBarcode } from 'redux/slicers/store/barcodeSlicer';
 import { useEffect, useState } from 'react';
 import { TBarcodeState } from 'redux/types';
 
 const ValidateComponent = () => {
-  // after 11 time check the page changes to ivalied validate and will never revert
+  // after 11 time check the page changes to ivalied validate and will never revert unless page is refreshed
   const { error } = useAppSelector<TBarcodeState>((state) => state.barcode);
   const [input, setInput] = useState('');
+  const [lengthError, setLenghtError] = useState(false);
   const dispatch = useAppDispatch();
   const handleBarcodeCheck = (code: string) => {
     dispatch(fetchBarcode({ code }));
   };
+
+  const [isSecondForm, setSecondForm] = useState(false);
   useEffect(() => {
-    console.log(error);
+    if (error == 404) {
+      setSecondForm(true);
+    }
+    if (error == 429) {
+      setSecondForm(true);
+    }
+    if (error == null) {
+      setSecondForm(false);
+    }
   }, [error]);
   return (
     <Wrapper>
-      <div className="ValidatePage_ValidatePage__3OAyc">
-        <div className="ValidatePage_container__2UMcj">
-          <div className="Validate_Validate__3vIsc Validate_active__cljkI">
-            <div className="Validate_logo__17Wjb">
+      <ValidatePage>
+        <Container>
+          <ValidationWrapper
+            className={`${!isSecondForm ? 'Validate_active__cljkI' : ''}`}
+          >
+            <ValidateLogoWrapper>
               <img src="/static/media/husky-logo.5e653688.png" alt="logoImg" />
-            </div>
-            <div
-              // onSubmit={(evt) => evt.preventDefault()}
-              className="Validate_form__23dZX"
-            >
-              <div className="Validate_inputBox__MHizk">
+            </ValidateLogoWrapper>
+            <ValidateFormWrapper>
+              <ValidateInputBoxWrapper>
                 <input
                   type="text"
                   placeholder="Введите код с упаковки"
-                  maxLength={11}
+                  // maxLength={11}
                   value={input}
-                  onChange={(evt) => setInput(evt.target.value)}
+                  onChange={(evt) => {
+                    dispatch(clearError());
+                    setInput(evt.target.value.slice(0, 11).toUpperCase());
+                    if (evt.target.value.length >= 12) {
+                      setLenghtError(true);
+                    } else {
+                      setLenghtError(false);
+                    }
+                  }}
                 />
-              </div>
-              <div className="Validate_responseText__32b_A">
-                {/*  <span className="Validate_validate__3_cQv">Вы купили оригинальную жидкость</span> this is the success response */}
-                {/* <span className="Validate_used__2pIPc">Данный код уже проверяли</span> the repeat response */}
-                <span style={{ color: 'red' }}>{error}</span>
-              </div>
-              <button
+              </ValidateInputBoxWrapper>
+              <ValidateResponseTextWrapper>
+                {error == 200 || error == 203 ? (
+                  <span className="Validate_validate__3_cQv">
+                    Вы купили оригинальную жидкость
+                  </span>
+                ) : (
+                  ''
+                )}
+                {error == 403 && !lengthError && input.length != 0 ? (
+                  <span className="Validate_used__2pIPc">
+                    Данный код уже проверяли
+                  </span>
+                ) : (
+                  ''
+                )}
+                {lengthError ? (
+                  <span className="Validate_error__3TJ1B">
+                    Код не может быть более 11 символов
+                  </span>
+                ) : (
+                  ''
+                )}
+              </ValidateResponseTextWrapper>
+              <ValidateValidateBtnWrapper
                 onClick={() => handleBarcodeCheck(input)}
-                className="Validate_validateBtn__c9Bcc Validate_disable__2vcgc"
+                className={`${
+                  input.length < 11 ? 'Validate_disable__2vcgc' : ''
+                }`}
+                disabled={input.length < 11 ? true : false}
               >
                 <span>Проверить</span>
-              </button>
-            </div>
-            <div className="Validate_footer__3apOM">
-              <button
-                onClick={() => handleBarcodeCheck(input)}
-                style={{ backgroundColor: 'red' }}
-              >
-                <span style={{ color: 'white' }}>Проверить</span>
-              </button>
-              {/* <div class="Validate_feedBack__ZkslP"><span class="">Если ваш код не проходит валидацию, пожалуйста, сообщите это нам в </span><span class="Validate_feedBackBtn__12orc"> форме обратной связи. </span></div> this is the repeat resonse part */}
-              <div className="Validate_hint__21gEh">
+              </ValidateValidateBtnWrapper>
+            </ValidateFormWrapper>
+
+            <ValidateFooterWrapper>
+              {/* -------------- this part apears when the code is orignal and already used ----------*/}
+              {error == 403 ? (
+                <ValidateFeedBackWrapper>
+                  <span>
+                    Если ваш код не проходит валидацию, пожалуйста, сообщите это
+                    нам в
+                  </span>
+                  <ValidateFeedBackBtnWrapper
+                    onClick={() => setSecondForm(true)}
+                  >
+                    форме обратной связи.
+                  </ValidateFeedBackBtnWrapper>
+                </ValidateFeedBackWrapper>
+              ) : (
+                ''
+              )}
+              {/* ------------- this is the repeat resonse part end ----------------- */}
+              <ValidateHintWrapper>
                 <span>Каждый код можно проверить один раз</span>
-              </div>
-              <div className="Validate_backBtnBox__2uC_u">
-                <a href="/" className="Validate_backBtn__2KGF6">
-                  {' '}
-                  Перейти на сайт{' '}
-                </a>
-              </div>
-            </div>
-          </div>
+              </ValidateHintWrapper>
+              <ValidateBackBtnBoxWrapper>
+                <ValidateBackBtnWrapper href="/">
+                  Перейти на сайт
+                </ValidateBackBtnWrapper>
+              </ValidateBackBtnBoxWrapper>
+            </ValidateFooterWrapper>
+          </ValidationWrapper>
           {/* --------------------- failuer form ----------------------- */}
-          {/* <InvaliedValidate /> */}
-        </div>
-      </div>
+          <InvaliedValidate isSecondForm={isSecondForm} inputCode={input} />
+        </Container>
+      </ValidatePage>
     </Wrapper>
   );
 };
 
+const ValidatePage = styled.div`
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.37), #131313),
+    url(/static/media/validateBg.35163756.jpg);
+  background-size: cover;
+  background-position: 50% 50%;
+  mix-blend-mode: normal;
+`;
+
+const Container = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ValidationWrapper = styled.div`
+  opacity: 0;
+  position: absolute;
+  margin: 5px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%;
+  max-width: 340px;
+  pointer-events: none;
+  transition: all 0s linear 0s;
+`;
+
+const ValidateLogoWrapper = styled.div`
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  height: 120px;
+  img {
+    width: 80%;
+    object-fit: contain;
+  }
+  svg {
+    fill-rule: evenodd;
+  }
+  svg path,
+  svg path:first-child {
+    fill: #e7e7e7;
+  }
+`;
+
+const ValidateFormWrapper = styled.div`
+  margin-top: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .Validate_disable__2vcgc {
+    pointer-events: none;
+    background: linear-gradient(177.1deg, #d5d5d5 4.45%, #6e6e6e 92.66%);
+    opacity: 0.8;
+  }
+`;
+
+const ValidateInputBoxWrapper = styled.div`
+  height: 40px;
+  max-width: 270px;
+  width: 100%;
+  input {
+    padding-top: 2px;
+    height: 100%;
+    width: 100%;
+    background: #e6e6e6;
+    border-radius: 10px;
+    font-size: 20px;
+    text-align: center;
+    color: #444;
+    font-family: BebasSpecial, sans-serif;
+    letter-spacing: 2px;
+  }
+  input::placeholder {
+    font-family: BebasSpecial, sans-serif;
+    letter-spacing: 0;
+  }
+`;
+
+const ValidateResponseTextWrapper = styled.div`
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0 5px;
+  text-align: center;
+  .Validate_validate__3_cQv {
+    color: #00ff38;
+  }
+  .Validate_used__2pIPc {
+    color: #fff500;
+  }
+  .Validate_fake__18wax {
+    color: #ff1f00;
+  }
+  .Validate_error__3TJ1B {
+    color: #ff1f00;
+  }
+`;
+
+const ValidateValidateBtnWrapper = styled.button`
+  font-family: montserrat, sans-serif;
+  height: 50px;
+  max-width: 140px;
+  width: 100%;
+  background: linear-gradient(177.1deg, #ef7e58 4.45%, #993a2f 92.66%);
+  mix-blend-mode: normal;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  span {
+    color: #fff;
+  }
+`;
+
+const ValidateFeedBackWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 12%;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 75%;
+`;
+
+const ValidateFeedBackBtnWrapper = styled.span`
+  cursor: pointer;
+  display: inline-block;
+  color: #fff;
+  padding-bottom: 1px;
+  background: linear-gradient(270deg, #fff, #fff);
+  background-position: 0 100%;
+  background-size: 100% 1px;
+  background-repeat: repeat-x;
+`;
+
+const ValidateFooterWrapper = styled.div`
+  position: relative;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  color: #a4a4a4;
+`;
+
+const ValidateHintWrapper = styled.div`
+  padding-top: 100px;
+  font-size: 14px;
+`;
+
+const ValidateBackBtnBoxWrapper = styled.div`
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
+const ValidateBackBtnWrapper = styled.a`
+  cursor: pointer;
+  display: inline-block;
+  color: #fff;
+  padding-bottom: 1px;
+  background: linear-gradient(270deg, #fff, #fff);
+  background-position: 0 100%;
+  background-size: 100% 1px;
+  background-repeat: repeat-x;
+`;
 const Wrapper = styled.div`
-  /* latin-ext */
-  @font-face {
-    font-family: 'Bebas';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(https://fonts.gstatic.com/s/bebasneue/v14/JTUSjIg69CK48gW7PXoo9Wdhyzbi.woff2)
-      format('woff2');
-    unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF,
-      U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-  }
-  /* latin */
-  @font-face {
-    font-family: 'Bebas';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(https://fonts.gstatic.com/s/bebasneue/v14/JTUSjIg69CK48gW7PXoo9Wlhyw.woff2)
-      format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-      U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122,
-      U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-  }
-  /* cyrillic-ext */
-  @font-face {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw0aXpsog.woff2)
-      format('woff2');
-    unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
-      U+FE2E-FE2F;
-  }
-  /* cyrillic */
-  @font-face {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw9aXpsog.woff2)
-      format('woff2');
-    unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-  }
-  /* vietnamese */
-  @font-face {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw2aXpsog.woff2)
-      format('woff2');
-    unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169,
-      U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323,
-      U+0329, U+1EA0-1EF9, U+20AB;
-  }
-  /* latin-ext */
-  @font-face {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw3aXpsog.woff2)
-      format('woff2');
-    unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF,
-      U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-  }
-  /* latin */
-  @font-face {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url(https://fonts.gstatic.com/s/montserrat/v26/JTUHjIg1_i6t8kCHKm4532VJOt5-QNFgpCtr6Hw5aXo.woff2)
-      format('woff2');
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-      U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122,
-      U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  font-family: BebasSpecial, sans-serif;
+  button,
+  input,
+  textarea {
+    font-family: inherit;
   }
   .ValidatePage_ValidatePage__3OAyc {
     height: 100vh;
@@ -190,6 +342,13 @@ const Wrapper = styled.div`
   }
 
   .Validate_Validate__3vIsc.Validate_active__cljkI {
+    position: relative;
+    pointer-events: all;
+    opacity: 1;
+    transition: all 0.5s linear 0s;
+  }
+
+  .Validate_active__cljkI {
     position: relative;
     pointer-events: all;
     opacity: 1;
@@ -243,7 +402,7 @@ const Wrapper = styled.div`
     font-size: 20px;
     text-align: center;
     color: #444;
-    font-family: bebas, sans-serif !important;
+    font-family: BebasSpecial, sans-serif;
     letter-spacing: 2px;
   }
 
@@ -251,7 +410,7 @@ const Wrapper = styled.div`
     .Validate_form__23dZX
     .Validate_inputBox__MHizk
     input::placeholder {
-    font-family: bebas, sans-serif !important;
+    font-family: BebasSpecial, sans-serif;
     letter-spacing: 0;
   }
 
@@ -293,7 +452,7 @@ const Wrapper = styled.div`
   }
 
   .Validate_Validate__3vIsc .Validate_form__23dZX .Validate_validateBtn__c9Bcc {
-    font-family: montserrat, sans-serif !important;
+    font-family: montserrat, sans-serif;
     height: 50px;
     max-width: 140px;
     width: 100%;
@@ -443,7 +602,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: bebas, sans-serif !important;
+    font-family: BebasSpecial, sans-serif;
     letter-spacing: 2px;
   }
 
@@ -468,7 +627,7 @@ const Wrapper = styled.div`
     border-radius: 10px;
     font-size: 18px;
     color: #444;
-    font-family: bebas, sans-serif !important;
+    font-family: BebasSpecial, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -501,7 +660,7 @@ const Wrapper = styled.div`
     border-radius: 10px;
     font-size: 18px;
     color: #444;
-    font-family: bebas, sans-serif !important;
+    font-family: BebasSpecial, sans-serif;
     display: grid;
     grid-template-columns: auto;
     justify-items: center;
@@ -563,7 +722,7 @@ const Wrapper = styled.div`
     font-size: 18px;
     text-align: center;
     color: #181818;
-    font-family: bebas, sans-serif !important;
+    font-family: BebasSpecial, sans-serif;
   }
 
   .FeedBack_FeedBack__3g_lX
@@ -577,7 +736,7 @@ const Wrapper = styled.div`
   .FeedBack_FeedBack__3g_lX
     .FeedBack_form__2Srd4
     .FeedBack_responseText__cAdv7 {
-    font-family: bebas, sans-serif !important;
+    font-family: BebasSpecial, sans-serif;
     height: 55px;
     display: flex;
     justify-content: center;
@@ -690,7 +849,7 @@ const Wrapper = styled.div`
     border-radius: 10px;
     font-size: 18px;
     color: #444;
-    font-family: bebas, sans-serif !important;
+    font-family: BebasSpecial, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -783,7 +942,7 @@ const Wrapper = styled.div`
     border-radius: 10px;
     font-size: 18px;
     color: #444;
-    font-family: bebas, sans-serif !important;
+    font-family: BebasSpecial, sans-serif;
     display: flex;
     align-items: center;
     justify-content: center;

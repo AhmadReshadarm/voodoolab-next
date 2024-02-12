@@ -1,14 +1,32 @@
-const InvaliedValidate = () => {
+import { useAppSelector } from 'redux/hooks';
+import { TBarcodeState } from 'redux/types';
+
+const InvaliedValidate = ({ isSecondForm, inputCode }) => {
+  const { error } = useAppSelector<TBarcodeState>((state) => state.barcode);
   return (
     <>
-      <div className="FeedBack_FeedBack__3g_lX FeedBack_active__23Mwq">
+      <div
+        className={`${
+          !isSecondForm
+            ? 'FeedBack_FeedBack__3g_lX'
+            : 'FeedBack_FeedBack__3g_lX FeedBack_active__23Mwq'
+        }`}
+      >
         <div className="FeedBack_title__bYdTc">
-          <div className="FeedBack_fake__1vOUF">Неоригинальный товар</div>
+          {error == 404 ? (
+            <div className="FeedBack_fake__1vOUF">Неоригинальный товар</div>
+          ) : (
+            ''
+          )}
+          {error == 403 || error == 429 ? (
+            <div className="FeedBack_used__292fX">Данный код уже проверяли</div>
+          ) : (
+            ''
+          )}
         </div>
         <form className="FeedBack_form__2Srd4">
           <div className="FeedBack_code__2tiHq">
-            <span>SDFSDFSDDSF</span>
-            {/*    ^ here is the checked code which will be replace with a variable */}
+            <span>{inputCode}</span>
           </div>
           <div className="FeedBack_formTitle__3q-3i">Обратная связь</div>
           <div className="FeedBack_CountryChecked__3-jDl">
@@ -45,7 +63,7 @@ const InvaliedValidate = () => {
         </form>
         <div className="FeedBack_footer__2UfhK">
           <div className="FeedBack_backBtnBox__1JYpP">
-            <a href="https://voodoo-lab.ru" className="FeedBack_backBtn__2go4j">
+            <a href="/" className="FeedBack_backBtn__2go4j">
               {' '}
               Перейти на сайт{' '}
             </a>
