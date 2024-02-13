@@ -17,7 +17,6 @@ import {
 } from './helpers';
 import styles from './layout.module.scss';
 import { TAuthState } from 'redux/types';
-import { getUserInfo } from 'common/helpers/jwtToken.helpers';
 const { Header, Content, Footer, Sider } = Layout;
 
 type Props = {

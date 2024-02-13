@@ -6911,8 +6911,10 @@
       }
     },
     "barcodeGen": {
-      "barcodeLenght": "number",
-      "startsWith": "string"
+      "properties": {
+        "barcodeLenght": "number",
+        "startsWith": "string"
+      }
     },
     "BrandResponse": {
       "properties": {

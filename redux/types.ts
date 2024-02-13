@@ -254,6 +254,7 @@ type TBarcodeState = {
   barcode: Barcode | null;
   loading: boolean;
   error?: number | null;
+  saveLoading: boolean;
 };
 
 type TCheckoutState = {

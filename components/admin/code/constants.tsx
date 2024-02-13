@@ -1,10 +1,5 @@
 import { ColumnsType } from 'antd/lib/table';
-import { Barcode, Category } from 'swagger/services';
-import ActionButtons from '../generalComponents/ActionButtons';
-import { handleDeleteCategory, handleRedirectCategory } from './helpers';
-import styles from './categories.module.scss';
-import { Image } from 'antd';
-import { imageFallback } from 'common/constants';
+import { Barcode } from 'swagger/services';
 
 const columns: ColumnsType<Barcode> = [
   {
