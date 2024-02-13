@@ -352,7 +352,7 @@ const Header = () => {
             <a href="/merch" className="navItemLink">
               мерч
             </a>
-            <a href="https://voodoo-lab.ru/validate" className="navItemLink">
+            <a href="/validate" className="navItemLink">
               проверка
             </a>
             <a href="/reviews" className="navItemLink">
