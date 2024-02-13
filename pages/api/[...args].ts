@@ -7,9 +7,9 @@ export const config = {
 };
 
 const proxy = createProxyMiddleware({
-  // target: 'http://5.35.93.60:4000', // production server
+  target: 'http://45.84.226.89:4000', // production server
   // target: 'http://95.165.95.110:4010', // dev server
-  target: 'http://localhost:4000', // dev server locally
+  // target: 'http://localhost:4000', // dev server locally
   changeOrigin: true,
   pathRewrite: {
     '^/api/': '/', // remove base path
