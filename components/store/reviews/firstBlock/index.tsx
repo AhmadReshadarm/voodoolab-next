@@ -8,9 +8,12 @@ const FirstBlock = () => {
           <video
             src="/assets/video/reviews/reviews.mp4"
             poster="/assets/video/reviews/poster.png"
+            preload="auto"
             autoPlay
-            muted
             loop
+            muted
+            webkit-playinginline
+            playsInline
           ></video>
           <div className="backgroundFilter"></div>
         </div>

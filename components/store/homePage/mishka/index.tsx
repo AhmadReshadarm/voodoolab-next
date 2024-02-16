@@ -2,7 +2,14 @@ const Mishka = () => {
   return (
     <div className="Mishka">
       <div className="imgBox">
-        <video preload="auto" autoPlay loop muted webkit-playinginline>
+        <video
+          preload="auto"
+          autoPlay
+          loop
+          muted
+          webkit-playinginline
+          playsInline
+        >
           <source
             src="/assets/video/mishka.mp4"
             type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'

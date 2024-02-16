@@ -49,7 +49,8 @@ const VideoMerch = () => {
           autoPlay
           loop
           muted
-          webkit-playinginline=""
+          webkit-playinginline
+          playsInline
         >
           <source
             src="/assets/video/merch/merch_homePage.mp4"
@@ -71,7 +72,8 @@ const VideoMerch = () => {
           autoPlay
           loop
           muted
-          webkit-playinginline=""
+          webkit-playinginline
+          playsInline
         >
           <source
             src="/assets/video/husky_prem_new.mp4"
