@@ -21,8 +21,7 @@ import globalUISlicer from './slicers/store/globalUISlicer';
 import checkoutsReducer from './slicers/checkoutsSlicer';
 import cartSlicer from './slicers/store/cartSlicer';
 import catalogSlicer from './slicers/store/catalogSlicer';
-// import analyticsReducer from './slicers/analyticsSlicer';
-import productInfoSlicer from './slicers/store/productInfoSlicer';
+import analyticsReducer from './slicers/analyticsSlicer';
 import homePageSlicer from './slicers/store/homePageSlicer';
 import bannersReducer from './slicers/bannersSlicer';
 import storeCheckoutSlicer from './slicers/store/checkoutSlicer';
@@ -45,7 +44,7 @@ const combinedReducer = combineReducers({
   reviews: reviewsReducer,
   checkouts: checkoutsReducer,
   barcode: barcodeSlicer,
-  // analytics: analyticsReducer,
+  analytics: analyticsReducer,
   banners: bannersReducer,
   newsPosts: newsSlicer,
   subscribers: subscriberSlicer,
@@ -54,7 +53,6 @@ const combinedReducer = combineReducers({
   globalUI: globalUISlicer,
   cart: cartSlicer,
   catalog: catalogSlicer,
-  productInfo: productInfoSlicer,
   homePage: homePageSlicer,
   storeCheckout: storeCheckoutSlicer,
   wishlist: wishlistSlicer,
