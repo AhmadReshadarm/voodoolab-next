@@ -8,6 +8,8 @@ import Reveiws from 'components/store/homePage/reviews';
 import StoreLayout from 'components/store/storeLayout/layouts';
 import React, { useEffect, useRef, useState } from 'react';
 import Warning from 'components/store/homePage/warning';
+import Container from 'components/store/homePage/container';
+import Tikobar12000_slider from 'components/store/homePage/tikobar12000_slider';
 
 const IndexPage = (): JSX.Element => {
   useEffect(() => {
@@ -148,6 +150,10 @@ const IndexPage = (): JSX.Element => {
                 data-title="home.firstBlock.priceListButton"
               >
                 Получить прайс
+              </div>
+              <div className="linkBox">
+                <span>Официальный международный сайт HUSKY:</span>
+                <a href="https://husky-eliquid.com">husky-eliquid.com</a>
               </div>
             </div>
           </div>
@@ -486,6 +492,11 @@ const IndexPage = (): JSX.Element => {
         <div className="rightOpacity"></div>
       </div>
       {/* ---------------------------------------end of lines------------------------------------- */}
+      {/* -------------------------- TIKOBAR ------------------------------------ */}
+
+      <Container />
+      <Tikobar12000_slider />
+
       {/*---------------------------------------- cyber ------------------------------------ */}
       <Cyber />
       {/* ----------------------------------- mishka ---------------------------------- */}

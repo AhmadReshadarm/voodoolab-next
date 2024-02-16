@@ -180,6 +180,10 @@ const Header = () => {
                 <a href="/cyber" className="navItemLink">
                   Husky Cyber
                 </a>
+                <a href="/siberia-tikobar-12000" className="navItemLink">
+                  <div className="newIconSub right">new</div>
+                  HUSKY СИБИРЬ TIKOBAR 12000
+                </a>
               </div>
             </div>
             <div
@@ -307,6 +311,10 @@ const Header = () => {
                 <a href="/cyber" className="navItemLink">
                   Husky Cyber
                 </a>
+                <a href="/siberia-tikobar-12000" className="navItemLink">
+                  <div className="newIcon right">new</div>
+                  HUSKY СИБИРЬ TIKOBAR 12000
+                </a>
               </div>
             </div>
             <div className="navItemBtn desktop_navItemBtn">
@@ -352,7 +360,7 @@ const Header = () => {
             <a href="/merch" className="navItemLink">
               мерч
             </a>
-            <a href="https://voodoo-lab.ru/validate" className="navItemLink">
+            <a href="/validate" className="navItemLink">
               проверка
             </a>
             <a href="/reviews" className="navItemLink">

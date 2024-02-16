@@ -456,6 +456,12 @@ body {
   border-radius: 5px;
 }
 
+.header .mobile .navigation .navItemBtn .newIcon.right {
+  left: auto;
+  right: -5px;
+  top: -9px;
+}
+
 .header .desktop .navigation .navItemBtn_box {
   display: none;
   position: absolute;
@@ -692,6 +698,7 @@ body {
   color: #fff;
   text-decoration: none;
   cursor: pointer;
+  position: relative;
 }
 
 .header .mobile .navigation .navItemBtn {
@@ -706,6 +713,22 @@ body {
   position: absolute;
   left: -28px;
   top: -6px;
+  background-color: red;
+  font-size: 12px;
+  padding: 2px 7px 0;
+  border-radius: 5px;
+}
+
+.header .mobile .navigation .navItemBtn .newIcon .right {
+  left: auto;
+  right: -5px;
+  top: -9px;
+}
+
+.header .desktop .navigation .navItemBtn .newIconSub {
+  position: absolute;
+  right: -5px;
+  top: -12px;
   background-color: red;
   font-size: 12px;
   padding: 2px 7px 0;
@@ -2399,7 +2422,19 @@ html {
 
 .firstBlock .main .content .getPriceBox {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  gap: 40px;
+}
+
+.firstBlock .main .content .getPriceBox .linkBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 24px;
 }
 
 .firstBlock .main .content .getPriceBox .getPriceBtn {
@@ -2410,6 +2445,12 @@ html {
   font-weight: 700;
   padding: 25px 40px 20px;
   cursor: pointer;
+}
+
+.firstBlock .main .content .getPriceBox .linkBox a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
 }
 
 .firstBlock .main .content .getPriceBox .getPriceBtn:hover {
@@ -4768,96 +4809,6 @@ html {
     max-width: 170px;
     height: 60px;
     font-size: 30px;
-  }
-}
-
-/* --------------------------------------- reviews ------------------------ */
-
-.reviews {
-  max-width: 1920px;
-  width: 100%;
-  margin: 0 auto 30px;
-}
-
-.reviews a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.reviews .videoItem {
-  margin: 50px 30px 0;
-}
-
-.reviews .videoItem .videoTitle {
-  text-transform: uppercase;
-  color: #fff;
-  padding: 10px;
-  font-size: 36px;
-  text-align: center;
-  font-weight: 700;
-}
-
-.reviews .videoItem .youtube-player {
-  position: relative;
-}
-
-.reviews .videoItem .youtube-player img {
-  display: block;
-  -o-object-fit: contain;
-  object-fit: contain;
-  width: 100%;
-  min-height: 170px;
-  cursor: pointer;
-  max-height: 200px;
-}
-
-.reviews .videoItem .youtube-player img:hover {
-  -webkit-filter: brightness(75%);
-}
-
-.youtube-player {
-  background-position: center;
-  background-repeat: no-repeat;
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-  transition: all 0.2s ease-out;
-  cursor: pointer;
-}
-
-.youtube-player .play {
-  background: url(/assets/images/common/youtube-play-btn.png) no-repeat;
-  background-position: 0 -50px;
-  background-size: 100% auto;
-  position: absolute;
-  height: 50px;
-  width: 69px;
-  transition: none;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-}
-
-.youtube-player:hover .play {
-  background-position: 0 0;
-}
-
-@media screen and (max-width: 767px) {
-  .reviews .videoItem .videoTitle {
-    font-size: 26px;
-  }
-
-  .reviews .videoItem .youtube-player img {
-    height: calc(50vw + 4px);
-    max-height: none;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .reviews .videoItem {
-    padding: 0 2vw;
   }
 }
 
